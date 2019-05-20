@@ -1,0 +1,252 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: Express Api
+host: 'localhost:3000'
+basePath: /api/v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /auth/sign-in:
+    post:
+      description: Sign In
+      tags:
+        - Authorization
+      parameters:
+        - name: body
+          in: body
+          description: Sign in body params
+          required: true
+          schema:
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            allOf:
+              - $ref: '#/definitions/User'
+              - $ref: '#/request-models/Token'
+        default:
+          description: Error
+          schema:
+            $ref: '#/request-models/ErrorResponse'
+  /auth/sign-up:
+    post:
+      description: Sign Up
+      tags:
+        - Authorization
+      parameters:
+        - name: body
+          in: body
+          description: Sign up body params
+          required: true
+          schema:
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            allOf:
+              - $ref: '#/definitions/User'
+              - $ref: '#/request-models/Token'
+      default:
+        description: Error
+        schema:
+          $ref: '#/request-models/ErrorResponse'
+  /auth/sign-out:
+    post:
+      description: Sign Out
+      security:
+        - Bearer: []
+      tags:
+        - Authorization
+      responses:
+        '200':
+          description: Success
+      default:
+        description: Error
+        schema:
+          $ref: '#/request-models/ErrorResponse'
+  /auth/change-password:
+    put:
+      description: Change password
+      security:
+        - Bearer: []
+      tags:
+        - Authorization
+      parameters:
+        - name: body
+          in: body
+          description: Change password body params
+          required: true
+          schema:
+            required:
+              - newPassword
+              - password
+            properties:
+              newPassword:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            allOf:
+              - $ref: '#/definitions/User'
+              - $ref: '#/request-models/Token'
+        default:
+          description: Error
+          schema:
+            $ref: '#/request-models/ErrorResponse'
+  /users/my:
+    put:
+      description: Update user own profile
+      security:
+        - Bearer: []
+      tags:
+        - User
+      parameters:
+        schema:
+          - $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Success
+          schema:
+            allOf:
+              - $ref: '#/definitions/User'
+        default:
+          description: Error
+          schema:
+            $ref: '#/request-models/ErrorResponse'
+  /cars/:
+    get:
+      description: >-
+        Get list of cars example
+        /api/v1/cars?search=Jarred&lat=-122.4326441&lng=37.7628964
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: The search query string
+          examples: Jon business
+        - in: query
+          name: skip
+          schema:
+            type: integer
+          description: The numbers of items to skip before return
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+        - in: query
+          name: lat
+          schema:
+            type: integer
+          description: The latitude user cords
+        - in: query
+          name: lng
+          schema:
+            type: integer
+          description: The longitude user cords
+        - in: query
+          name: distnace
+          schema:
+            type: integer
+          description: The distnace (radiuse) to search
+      tags:
+        - Car
+      responses:
+        '200':
+          description: Success
+          schema:
+            allOf:
+              - $ref: '#/definitions/Cars'
+        default:
+          description: Error
+          schema:
+            $ref: '#/request-models/ErrorResponse'
+  '/cars/{_id}':
+    get:
+      description: Get sinfle car
+      tags:
+        - Car
+      responses:
+        '200':
+          description: Success
+          schema:
+            allOf:
+              - $ref: '#/definitions/Car'
+        default:
+          description: Error
+          schema:
+            $ref: '#/request-models/ErrorResponse'
+  '/images/{_id}':
+    get:
+      description: Get sinfle image
+      tags:
+        - Image
+      responses:
+        '200':
+          description: Success
+          schema:
+            allOf:
+              - $ref: '#/definitions/Image'
+        default:
+          description: Error
+          schema:
+            $ref: '#/request-models/ErrorResponse'
+  /swagger:
+    x-swagger-pipe: swagger_raw
+definitions:
+  User:
+    required:
+      - _id
+    properties:
+      _id:
+        type: string
+      email:
+        type: string
+      profile:
+        properties:
+          fullName:
+            type: string
+request-models:
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  Token:
+    required:
+      - token
+    properties:
+      token:
+        type: string
