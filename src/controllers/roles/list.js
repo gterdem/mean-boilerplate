@@ -1,5 +1,6 @@
 const { sendList } = require('../../middleware/index');
 const { queryToObject } = require('../../utils/requests');
+const { Role } = require("./../../models/role")
 
 const list = ({ Roles }, { config }) => async (req, res, next) => {
     try {
@@ -9,13 +10,13 @@ const list = ({ Roles }, { config }) => async (req, res, next) => {
         limit = parseInt(limit, 10);
         limit = limit && limit < config.maxLimitPerQuery ? limit : config.maxLimitPerQuery;
 
-        const query = { $and: [] };
+        let query = {};
         if (search) {
-            query.$and.push({ $or: new Roles().fieldsToSearch(search) });
+            query = { $and: [] }
+            query.$and.push({ $or: new Role().fieldsToSearch(search) });
         }
-
-        const count = await Roles.find(query).count();
-        const result = await Roles.find(query)
+        const count = await Role.find(query).countDocuments();
+        const result = await Role.find(query)
             //.sort({ : 1 })
             .skip(skip)
             .limit(limit);

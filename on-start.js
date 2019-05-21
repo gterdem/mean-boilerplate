@@ -32,17 +32,26 @@ const createAdminUser = async () => {
   const adminRole = await Role.findOneAndUpdate(roleQuery, roleUpdate, roleOptions);
 
   let adminUserQuery = { email: "admin@admin.com" };
-  let adminUserUpdate = {
-    email: "admin@admin.com",
-    profile: {
-      name: "Galip Tolga",
-      lastName: "Erdem"
-    },
-    roles: [adminRole]
-  };
-  let adminUserOptions = { upsert: true, new: true, setDefaultsOnInsert: true };
-  const adminUser = await User.findOneAndUpdate(adminUserQuery, adminUserUpdate, adminUserOptions);
-  const userPermissions = await permissionManager.GetUserPermissions(adminUser._id);
+  let adminUser = await User.findOne(adminUserQuery);
+  if (adminUser == null) {
+    adminUser = {
+      email: "admin@admin.com",
+      profile: {
+        name: "Galip Tolga",
+        lastName: "Erdem"
+      },
+      roles: [adminRole]
+    };
+    User.register(adminUser, "123qwe", (result) => {
+      if (result === null) {
+        console.log("admin user created...");
+      } else {
+        console.log(result.message);
+      }
+    })
+  }
+
+  // const userPermissions = await permissionManager.GetUserPermissions(adminUser._id);
 }
 
 

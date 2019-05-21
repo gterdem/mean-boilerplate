@@ -321,7 +321,7 @@
         "requestBody": {
           "description": "Created user object",
           "content": {
-            "*/*": {
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User"
               }
@@ -380,7 +380,7 @@
         "requestBody": {
           "description": "Created role object",
           "content": {
-            "*/*": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -469,7 +469,7 @@
         "requestBody": {
           "description": "update role with body params",
           "content": {
-            "*/*": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -562,7 +562,7 @@
         "requestBody": {
           "description": "Updated user profile; firstName, lastName and avatar.",
           "content": {
-            "*/*": {
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User"
               }
