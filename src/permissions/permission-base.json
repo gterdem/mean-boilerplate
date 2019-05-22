@@ -1,0 +1,16 @@
+[
+    {
+        "level": 0,
+        "parentName": null,
+        "name": "Pages",
+        "displayName": "Pages",
+        "description": null
+    },
+    {
+        "level": 1,
+        "parentName": "Pages",
+        "name": "Pages.Administration",
+        "displayName": "Administration",
+        "description": null
+    }
+]

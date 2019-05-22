@@ -7,19 +7,9 @@ const { User } = require('./src/models/user');
 
 const { permissionManager } = require('./src/permissions');
 
-const addCatalogs = async () => {
-  // const count = await Models.find({}).count();
-  // if (!count) {
-  const file = path.resolve(__dirname, './private/assets', './model.json');
-  jsonfile.readFile(file, async (err, catalogsJSON) => {
-    if (err) throw err;
-
-    for (let index = 0; index < catalogsJSON.length; index++) {
-      // const model = new Model(catalogsJSON[index]);
-      // await model.save();
-    }
-  });
-  // }
+const initializePermissionsAsync = async () => {
+  await permissionManager.initializeAsync();
+  console.log("Permission initialization completed...");
 };
 const createAdminUser = async () => {
   const allPermissions = permissionManager.GetAllPermissions();
@@ -57,6 +47,7 @@ const createAdminUser = async () => {
 
 const onAppStart = async () => {
   try {
+    await initializePermissionsAsync();
     await createAdminUser();
   } catch (error) {
     logger.error('Seed error', { metadata: error });
