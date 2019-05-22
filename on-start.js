@@ -5,7 +5,7 @@ const { logger } = require('./logger');
 const { Role } = require('./src/models/role');
 const { User } = require('./src/models/user');
 
-const { permissionManager } = require('./src/utils/managers');
+const { permissionManager } = require('./src/permissions');
 
 const addCatalogs = async () => {
   // const count = await Models.find({}).count();
@@ -51,7 +51,7 @@ const createAdminUser = async () => {
     })
   }
 
-  // const userPermissions = await permissionManager.GetUserPermissions(adminUser._id);
+  const userPermissions = await permissionManager.GetUserPermissions(adminUser._id);
 }
 
 

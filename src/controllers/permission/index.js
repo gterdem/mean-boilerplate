@@ -1,7 +1,8 @@
 const { Router: router } = require('express');
 const { sendList } = require('../../middleware/index');
 
-const { permissionManager } = require('../../utils/managers/permissionManager');
+const { permissionManager } = require('../../permissions');
+
 const permissions = permissionManager.GetAllPermissions();
 
 module.exports = () => {
