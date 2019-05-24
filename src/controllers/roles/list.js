@@ -6,6 +6,8 @@ const list = ({ Role }, { config }, requiredPermissions) => async (req, res, nex
     try {
         // Authorization of the method -> Should have a better way
         // Failed authorization is catched and forwarded with message.
+        // https://github.com/expressjs/express/issues/2831
+        // Setting permissions to res.locals doesn't seem possible since required permissions changes based on url needs to be passed as parameter
         await permissionManager.AuthorizeAsync(req.user.id, requiredPermissions);
         let { search, limit, skip } = queryToObject(req.query);
 
