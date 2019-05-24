@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 const permissionSchema = new Schema({
     level: String,
     parentName: String,
+    name: {
+        type: String,
+        required: [true],
+        unique: true
+    },
     displayName: String,
     description: String
 });

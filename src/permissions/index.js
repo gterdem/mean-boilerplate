@@ -1,2 +1,2 @@
-const { permissionManager } = require('./permissionManager');
-module.exports = { permissionManager };
+const { permissionManager, userInfoCache } = require('./permission-manager');
+module.exports = { permissionManager, userInfoCache };

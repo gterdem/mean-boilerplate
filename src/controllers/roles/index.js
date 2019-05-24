@@ -1,5 +1,6 @@
 const { Router: router } = require('express');
 const { authenticate } = require('../../middleware');
+const { Roles, Roles_Create, Roles_Delete, Roles_Edit } = require('../../permissions/permission-roles');
 const update = require('./update');
 const create = require('./create');
 const remove = require('./remove');
@@ -39,11 +40,11 @@ const { list } = require('./list');
 module.exports = (models, { config }) => {
        const api = router();
 
-       api.get('/', authenticate, list(models, { config }));
-       api.get('/:_id', authenticate, get(models));
-       api.post('/', authenticate, create(models));
-       api.put('/:_id', authenticate, update(models));
-       api.delete('/:_id', authenticate, remove(models));
+       api.get('/', authenticate, list(models, { config }, { Roles }));
+       api.get('/:_id', authenticate, get(models, { Roles }));
+       api.post('/', authenticate, create(models, { Roles_Create }));
+       api.put('/:_id', authenticate, update(models, { Roles_Edit }));
+       api.delete('/:_id', authenticate, remove(models, { Roles_Delete }));
 
        return api;
 };

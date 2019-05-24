@@ -7,6 +7,6 @@ module.exports = {
     secretAuthToken: process.env.SECRET_TOKEN,
     resetPasswordExpires: 3600000 * 24, // 24 hour
   },
-	swaggerDirPath: path.resolve(__dirname, '../swagger/'),
-  swaggerFilePath: path.resolve(__dirname, '../swagger/swagger.dev.yaml'),
+  // swaggerDirPath: path.resolve(__dirname, '../swagger/'),
+  // swaggerFilePath: path.resolve(__dirname, '../swagger/swagger.dev.yaml'),
 };

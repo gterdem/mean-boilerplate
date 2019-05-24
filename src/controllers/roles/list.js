@@ -1,9 +1,14 @@
 const { sendList } = require('../../middleware/index');
 const { queryToObject } = require('../../utils/requests');
-const { Role } = require("./../../models/role")
+const { permissionManager } = require('../../permissions');
+const { APIError } = require('rest-api-errors');
 
-const list = ({ Roles }, { config }) => async (req, res, next) => {
+const list = ({ Role }, { config }, requiredPermissions) => async (req, res, next) => {
     try {
+        const authorizationResult = await permissionManager.AuthorizeAsync(req.user.id, requiredPermissions);
+        if (!authorizationResult) {
+            throw new APIError(403, "Forbidden", `You need at least one of these permissions: ${authorizationResult}`);
+        }
         let { search, limit, skip } = queryToObject(req.query);
 
         skip = skip ? parseInt(skip, 10) : 0;
@@ -26,5 +31,6 @@ const list = ({ Roles }, { config }) => async (req, res, next) => {
         next(error);
     }
 };
+
 
 module.exports = { list };

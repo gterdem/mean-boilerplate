@@ -7,8 +7,6 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerMerger = require('swagger-merger')
 
 const bodyParser = require('body-parser');
 const { config } = require('./config');

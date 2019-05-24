@@ -35,20 +35,25 @@ const createAdminUser = async () => {
     User.register(adminUser, "123qwe", (result) => {
       if (result === null) {
         console.log("admin user created...");
+        return adminUser;
       } else {
         console.log(result.message);
       }
     })
+  } else {
+    return adminUser;
   }
 
-  const userPermissions = await permissionManager.GetUserPermissions(adminUser._id);
+
 }
 
 
 const onAppStart = async () => {
   try {
     await initializePermissionsAsync();
-    await createAdminUser();
+    const adminUser = await createAdminUser();
+    const permissions = await permissionManager.GetUserPermissionsByIdAsync(adminUser._id);
+    const dodo = permissions;
   } catch (error) {
     logger.error('Seed error', { metadata: error });
     console.log('---> on start Error: ');

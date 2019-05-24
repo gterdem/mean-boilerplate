@@ -12,13 +12,14 @@ const roles = require('../controllers/roles');
 const permissions = require('../controllers/permission');
 
 const models = { User, Role, Image };
+const authorize = {};
 
 const routersInit = config => {
   const router = express();
 
   router.use('/auth', auth(models, { config }));
   router.use('/users', users(models, { config }));
-  router.use('/roles', roles(models, { config }));
+  router.use('/roles', roles(models, { config }, authorize));
   router.use('/images', images(models, { config }));
   router.use('/permissions', permissions());
 
