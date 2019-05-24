@@ -1,14 +1,12 @@
 const { sendList } = require('../../middleware/index');
 const { queryToObject } = require('../../utils/requests');
 const { permissionManager } = require('../../permissions');
-const { APIError } = require('rest-api-errors');
 
 const list = ({ Role }, { config }, requiredPermissions) => async (req, res, next) => {
     try {
-        const authorizationResult = await permissionManager.AuthorizeAsync(req.user.id, requiredPermissions);
-        if (!authorizationResult) {
-            throw new APIError(403, "Forbidden", `You need at least one of these permissions: ${authorizationResult}`);
-        }
+        // Authorization of the method -> Should have a better way
+        // Failed authorization is catched and forwarded with message.
+        await permissionManager.AuthorizeAsync(req.user.id, requiredPermissions);
         let { search, limit, skip } = queryToObject(req.query);
 
         skip = skip ? parseInt(skip, 10) : 0;
