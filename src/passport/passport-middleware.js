@@ -3,6 +3,7 @@ const expressJwt = require('express-jwt');
 const { config } = require('../../config');
 
 const authenticate = (req, res, next) => {
+  console.log(`Passed Data:${res.locals.permissions}`);
   req.headers.authorization = req.headers.authorization || `Bearer ${req.query.access_token}`;
   return expressJwt({
     secret:

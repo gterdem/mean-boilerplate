@@ -124,8 +124,9 @@ const getMissingPermissionsAsync = async (userId, requiredPermissions) => {
     let existingUserPermissions = userInfoCache.get(userId.toString());
     let missingPermissions = [];
     if (existingUserPermissions == undefined) {
-        console.log(`getMissingPermissionsAsync couldn't found cache data!`);
+        console.log(`getMissingPermissionsAsync couldn't found cache data! Getting from db and setting back to cache...`);
         existingUserPermissions = await getUserPermissionsByIdAsync(userId);
+        userInfoCache.set(userId.toString(), existingUserPermissions);
     }
     for (var i = 0; i < requiredPermissions.length; i++) {
         if (existingUserPermissions.indexOf(requiredPermissions[i]) === -1)
