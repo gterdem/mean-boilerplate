@@ -15,7 +15,7 @@ const { passport } = require('./src/passport');
 const { mongoManager } = require('./src/mongo');
 const { onAppStart } = require('./on-start');
 
-const { errorLogger, logger, requestLogger } = require('./logger');
+const { logger } = require('./logger');
 
 const app = express();
 // swagger docs
@@ -23,7 +23,6 @@ mongoManager.connect();
 
 // Loggers
 app.use(morgan('combined'));
-app.use(errorLogger);
 // app.use(requestLogger);
 // app.use(logger('dev'));
 app.get('/', function (req, res) {
